@@ -324,7 +324,15 @@ async function connectSwarm(roomCode){
     'wss://tracker.webtorrent.dev',
     'wss://tracker.btorrent.xyz',
     'wss://tracker.files.fm:7073/announce'
-  ]
+  ],
+     rtcConfig: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun.cloudflare.com:3478' },
+      { urls: 'stun:global.stun.twilio.com:3478' }
+      // TURN 보유 시 여기에 추가: { urls:'turn:HOST:3478', username:'USER', credential:'PASS' }
+    ]
+  }
 });
 
 
