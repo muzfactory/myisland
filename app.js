@@ -24,6 +24,14 @@ const NICK_SUFFIX = 'iSLAND';
 const MAX_NICK_CHANGES_PER_WEEK = 2;
 const NICK_COOLDOWN_HOURS = 24;
 
+// --- bittorrent-tracker 전역명 호환 ---
+const TrackerClient =
+  window.Client || (window.bittorrentTracker && window.bittorrentTracker.Client);
+if (!TrackerClient) {
+  console.error('bittorrent-tracker 전역을 찾을 수 없습니다. CDN 스크립트를 확인하세요.');
+}
+
+
 // ------------------ State ------------------
 let state = {
   uuid: null,
@@ -307,11 +315,17 @@ async function connectSwarm(roomCode){
   const infoHash = await sha1Hex('island:' + roomCode);
   // Create tracker client
   if(state.client) try { state.client.destroy(); } catch {}
-  state.client = new window.Client({
-    infoHash,
-    peerId: state.peerId,
-    announce: TRACKERS
-  });
+ state.client = new TrackerClient({
+  infoHash,
+  peerId: state.peerId,
+  announce: [
+    'wss://tracker.openwebtorrent.com',
+    'wss://tracker.webtorrent.dev',
+    'wss://tracker.btorrent.xyz',
+    'wss://tracker.files.fm:7073/announce'
+  ]
+});
+
 
   state.peers.clear();
 
