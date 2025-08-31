@@ -307,7 +307,7 @@ async function connectSwarm(roomCode){
   const infoHash = await sha1Hex('island:' + roomCode);
   // Create tracker client
   if(state.client) try { state.client.destroy(); } catch {}
-  state.client = new window.bittorrentTracker.Client({
+  state.client = new window.Client({
     infoHash,
     peerId: state.peerId,
     announce: TRACKERS
