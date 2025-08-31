@@ -2,6 +2,8 @@
   "name": "iSLAND Chat",
   "short_name": "iSLAND",
   "start_url": "/index.html",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#FFF8F0",
   "theme_color": "#111111",
