@@ -1,4 +1,4 @@
-const CACHE_NAME = 'island-chat-v1';
+const CACHE_NAME = 'island-chat-v2';
 const ASSETS = [
    'index.html',
    'style.css',
