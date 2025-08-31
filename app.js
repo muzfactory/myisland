@@ -226,6 +226,7 @@ const chatInput = $('chatInput');
 const btnSend = $('btnSend');
 const statusLine = $('statusLine');
 const btnDestroy = $('btnDestroy');
+const btnShare = $('btnShare'); // 추가
 
 function route(){
   const hash = location.hash || '';
@@ -478,6 +479,36 @@ function destroyRoom(){
   setTimeout(()=>{ location.hash = ''; }, 600);
 }
 
+// ------------------ 공유 헬퍼 함수 2개 -------------------------
+function getShareURL(code) {
+  const url = new URL(location.href);
+  url.hash = '#room:' + code; // 깃허브 페이지 하위경로 대응
+  return url.toString();
+}
+
+async function shareRoom() {
+  const code = state.roomCode;
+  const url = getShareURL(code);
+  const title = roomTitle.textContent || 'iSLAND 채팅방';
+  const text = `섬 코드 ${code}로 입장하거나 링크로 바로 입장하세요.`;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({ title, text, url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert('공유 링크를 복사했습니다:\n' + url);
+    }
+  } catch {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('공유 링크를 복사했습니다:\n' + url);
+    } catch { alert(url); }
+  }
+}
+
+
+
 // ------------------ PWA Install ------------------
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -539,6 +570,8 @@ btnSend.addEventListener('click', sendChat);
 chatInput.addEventListener('keydown', (e)=> { if(e.key==='Enter') sendChat(); });
 
 btnDestroy.addEventListener('click', destroyRoom);
+btnShare.addEventListener('click', shareRoom); // 추가
+
 
 // ------------------ Init ------------------
 function registerSW(){
