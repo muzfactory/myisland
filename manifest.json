@@ -1,7 +1,6 @@
 {
   "name": "iSLAND Chat",
   "short_name": "iSLAND",
-  "start_url": "/index.html",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
